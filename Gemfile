@@ -46,3 +46,6 @@ group :development do
   gem 'spring'
 end
 
+# TRAILBLAZER
+gem 'trailblazer', '~> 1.0'
+gem 'trailblazer-rails', '~> 0.1.6'
