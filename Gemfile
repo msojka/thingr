@@ -49,3 +49,7 @@ end
 # TRAILBLAZER
 gem 'trailblazer', '~> 1.0'
 gem 'trailblazer-rails', '~> 0.1.6'
+
+# UI
+gem 'haml', '~> 4.0'
+gem 'simple_form', '~> 3.2'
