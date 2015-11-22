@@ -1,6 +1,5 @@
 class Thing < ActiveRecord::Base
   
-  
   class Create < Trailblazer::Operation
     include Model
     model Thing, :create
@@ -18,9 +17,7 @@ class Thing < ActiveRecord::Base
         f.save
       end
     end
-  
   end
-  
   
   class Update < Create
     action :update
@@ -28,8 +25,6 @@ class Thing < ActiveRecord::Base
     contract do
       property :name, writeable: false
     end
-    
   end
-  
-  
+
 end

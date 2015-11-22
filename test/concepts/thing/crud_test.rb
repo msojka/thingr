@@ -1,10 +1,8 @@
 require 'test_helper'
 
 class ThingCrudTest < MiniTest::Spec
-  
-  
+    
   describe "Create" do
-  
     it "perists valid" do
       thing = Thing::Create.(
         thing: {
@@ -32,9 +30,7 @@ class ThingCrudTest < MiniTest::Spec
       res.must_equal false
       op.contract.errors.to_s.must_equal "{:description=>[\"is too short (minimum is 4 characters)\"]}"
     end
-  
   end
-  
   
   describe "Update" do
     let(:thing) {
@@ -54,8 +50,6 @@ class ThingCrudTest < MiniTest::Spec
       thing.name.must_equal "Rails"
       thing.description.must_equal "Simply better"
     end
-    
   end
-  
   
 end

@@ -29,4 +29,5 @@ describe ThingsController do
       assert_select "form #thing_name.readonly[value='Rails']"
     end
   end
+  
 end
