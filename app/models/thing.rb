@@ -1,5 +1,5 @@
 class Thing < ActiveRecord::Base
   
-  scope :latest, -> { all.limit(9).order("id DESC") }
+  scope :latest, -> { all.limit(9).order(id: :desc) }
   
 end
