@@ -2,4 +2,5 @@
   Welcome to Thingr!
   
 .row
-  = concept("thing/cell", Thing.last)
+  - things = Thing.latest
+  = concept("thing/cell", collection: things, last: things.last)

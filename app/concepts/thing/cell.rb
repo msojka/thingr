@@ -17,4 +17,10 @@ private
     time_ago_in_words(super)
   end
   
+  def classes
+    classes = ['large-3', 'columns']
+    classes << 'end' if options[:last] == model
+    classes
+  end
+  
 end
