@@ -75,6 +75,8 @@ GEM
     disposable (0.1.14)
       representable (>= 2.2.3, < 3.0.0)
       uber
+    email_validator (1.6.0)
+      activemodel
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -189,6 +191,7 @@ DEPENDENCIES
   cells (~> 4.0, >= 4.0.2)
   cells-haml
   coffee-rails (~> 4.1.0)
+  email_validator (~> 1.6)
   haml!
   jbuilder (~> 2.0)
   jquery-rails
