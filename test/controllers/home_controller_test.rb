@@ -2,9 +2,10 @@ require 'test_helper'
 
 class HomeIntegrationTest < ActionDispatch::IntegrationTest
   it do
+    Thing.delete_all
     Thing::Create.(thing: {name: "Rails"})
     # "Smoke" test .. just make sure that Thing grid cell is included.
     get "/"
-    assert_select ".header a", text: "Rails"
+    assert_select ".thing-cell a", text: "Rails"
   end
 end

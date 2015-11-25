@@ -17,10 +17,8 @@ private
     time_ago_in_words(super)
   end
   
-  def classes
-    classes = ['large-3', 'columns']
-    classes << 'end' if options[:last] == model
-    classes
+  def last_thing_class
+    options[:last] == model ? 'end' : ''
   end
   
   class Grid < Cell::Concept
