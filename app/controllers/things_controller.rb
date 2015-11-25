@@ -1,4 +1,7 @@
 class ThingsController < ApplicationController
+  def show
+    present Thing::Update
+  end
   
   def new
     form Thing::Create

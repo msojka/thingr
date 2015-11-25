@@ -3,6 +3,13 @@ require 'test_helper'
 describe ThingsController do
   let (:thing) { Thing::Create.(thing: {name: "Rails"}).model }
   
+  describe "show" do
+    it do
+      get :show, id: thing.id
+      response.body.must_match /Rails/
+    end
+  end
+  
   describe "new" do  
     it do
       get :new
