@@ -4,6 +4,11 @@ class Thing::Cell < Cell::Concept
   
   include ActionView::Helpers::DateHelper
   
+  include Cell::GridCell
+  self.classes = ["thing", "large-3", "columns"]
+  
+  include Cell::CreatedAt
+  
   def show
     render
   end
@@ -11,14 +16,6 @@ class Thing::Cell < Cell::Concept
 private
   def name_link
     link_to name, thing_path(model)
-  end
-  
-  def created_at
-    time_ago_in_words(super)
-  end
-  
-  def last_thing_class
-    options[:last] == model ? 'end' : ''
   end
   
   class Grid < Cell::Concept

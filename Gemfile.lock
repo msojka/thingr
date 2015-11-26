@@ -90,6 +90,12 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+    kaminari-cells (0.0.4)
+      cells (>= 4.0.0, <= 5.0.0)
+      kaminari (>= 0.16.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -195,6 +201,7 @@ DEPENDENCIES
   haml!
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari-cells (~> 0.0.4)
   minitest-spec-rails (~> 5.3)
   rails (= 4.2.5)
   sass-rails (~> 5.0)

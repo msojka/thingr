@@ -1,6 +1,7 @@
 class ThingsController < ApplicationController
   def show
-    present Thing::Update
+    @thing = present(Thing::Update).model
+    form Comment::Create
   end
   
   def new
@@ -11,19 +12,33 @@ class ThingsController < ApplicationController
     run Thing::Create do |op|
       return redirect_to op.model
     end
-    render action: :new
+    render :new
   end
   
   def edit
     form Thing::Update
-    render action: :new
+    render :new
   end
   
   def update
     run Thing::Update do |op|
       return redirect_to op.model
     end
-    render action: :new
+    render :new
+  end
+  
+  def create_comment
+    present Thing::Update
+    run Comment::Create do |op|
+      flash[:notice] = "Created comment for #{op.thing.name}"
+      return redirect_to thing_path(op.thing)
+    end
+    render :show
+  end
+  
+  def next_comments
+    @thing = present(Thing::Update).model
+    render js: concept("comment/cell/grid", @thing, page: params[:page]).(:append)
   end
   
 end

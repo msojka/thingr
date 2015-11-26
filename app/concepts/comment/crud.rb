@@ -38,7 +38,7 @@ class Comment < ActiveRecord::Base
   
   private
     def setup_model!(params)
-      model.thing = Thing.find(params[:thing_id])
+      model.thing = Thing.find(params[:id])
       model.user = User.new
     end
   end

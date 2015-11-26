@@ -6,7 +6,7 @@ class CommentCrudTest < MiniTest::Spec
   describe "Create" do
     it "perists valid" do
       res, op = Comment::Create.run(
-        thing_id: thing.id,
+        id: thing.id,
         comment: {
           body: 'Fantastic',
           weight: '1',
@@ -27,7 +27,7 @@ class CommentCrudTest < MiniTest::Spec
     
     it "invalid email" do
       res, op = Comment::Create.run(
-        thing_id: thing.id,
+        id: thing.id,
         comment: {
           user: { email: 'john@' }
         }

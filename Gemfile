@@ -58,6 +58,7 @@ gem 'cells-haml'
 #gem 'haml', '~> 4.0'
 gem 'haml', github: 'haml/haml', ref: '7c7c169' # cells-haml works with pre-4.1 haml
 gem 'simple_form', '~> 3.2'
+gem 'kaminari-cells', '~> 0.0.4'
 
 # MISC
 gem 'email_validator', '~> 1.6'

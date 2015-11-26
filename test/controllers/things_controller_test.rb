@@ -1,12 +1,24 @@
 require 'test_helper'
 
 describe ThingsController do
-  let (:thing) { Thing::Create.(thing: {name: "Rails"}).model }
+  let (:thing) do
+    thing = Thing::Create.(thing: {name: "Rails"}).model
+
+    Comment::Create.(comment: {body: "Excellent", weight: "0", user: {email: "zavan@trb.org"}}, id: thing.id)
+    Comment::Create.(comment: {body: "!Well.", weight: "1", user: {email: "jonny@trb.org"}}, id: thing.id)
+    Comment::Create.(comment: {body: "Cool stuff!", weight: "0", user: {email: "chris@trb.org"}}, id: thing.id)
+    Comment::Create.(comment: {body: "Improving.", weight: "1", user: {email: "hilz@trb.org"}}, id: thing.id)
+
+    thing
+  end
   
   describe "show" do
     it do
       get :show, id: thing.id
       response.body.must_match /Rails/
+      assert_select "input.button[value=?]", "Create Comment"
+      assert_select ".comment_user_email"
+      assert_select ".comments .comment"
     end
   end
   
@@ -34,6 +46,23 @@ describe ThingsController do
     it do
       get :edit, id: thing.id
       assert_select "form #thing_name.readonly[value='Rails']"
+    end
+  end
+  
+  describe "#create_comment" do
+    it do
+      post :create_comment, id: thing.id,
+                            comment: {  body: "That green jacket!", weight: "1",
+                                        user: {email: "seuros@trb.org"} }
+      assert_redirected_to thing_path(thing)
+      flash[:notice].must_equal "Created comment for Rails"
+    end
+  end
+  
+  describe "#next_comments" do
+    it do
+      xhr :get, :next_comments, id: thing.id, page: 2
+      response.body.must_match /zavan@trb.org/
     end
   end
   

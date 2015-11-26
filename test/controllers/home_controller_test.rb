@@ -6,6 +6,6 @@ class HomeIntegrationTest < ActionDispatch::IntegrationTest
     Thing::Create.(thing: {name: "Rails"})
     # "Smoke" test .. just make sure that Thing grid cell is included.
     get "/"
-    assert_select ".thing-cell a", text: "Rails"
+    assert_select ".thing a", text: "Rails"
   end
 end
