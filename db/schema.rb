@@ -29,11 +29,15 @@ ActiveRecord::Schema.define(version: 20151128191043) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "things_users", id: false, force: :cascade do |t|
+    t.integer "thing_id", null: false
+    t.integer "user_id",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "thing_id"
   end
 
 end
