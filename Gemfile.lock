@@ -79,9 +79,6 @@ GEM
       activemodel
     erubis (2.7.0)
     execjs (2.6.0)
-    foundation-icons-sass-rails (3.0.0)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
     foundation-rails (5.5.3.2)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -204,7 +201,6 @@ DEPENDENCIES
   cells-haml
   coffee-rails (~> 4.1.0)
   email_validator (~> 1.6)
-  foundation-icons-sass-rails (~> 3.0)
   foundation-rails (~> 5.5, >= 5.5.3.2)
   haml!
   jbuilder (~> 2.0)

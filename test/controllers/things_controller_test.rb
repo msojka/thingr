@@ -1,6 +1,8 @@
 require 'test_helper'
 
 describe ThingsController do
+  let (:page) { response.body }
+  
   let (:thing) do
     thing = Thing::Create.(thing: {name: "Rails"}).model
 
@@ -22,11 +24,15 @@ describe ThingsController do
     end
   end
   
-  describe "new" do  
-    it do
+  describe "#new" do
+    it "#new [HTML]" do
       get :new
-      assert_select "form #thing_name"
-      assert_select "form #thing_name.readonly", false
+
+      page.must_have_css "form #thing_name"
+      page.wont_have_css "form #thing_name.readonly"
+
+      # 3 author email fields
+      page.must_have_css("input.email", count: 3) # TODO: how can i say "no value"?
     end
   end
   
@@ -36,9 +42,12 @@ describe ThingsController do
       assert_redirected_to thing_path(Thing.last)
     end
     
-    it do #invalid
+    it do # invalid.
       post :create, {thing: {name: ""}}
-      assert_select ".error"
+      page.must_have_css ".error"
+
+      # 3 author email fields
+      # page.must_have_css("input.email", count: 3)
     end
   end
   

@@ -1,3 +1,4 @@
 class User < ActiveRecord::Base
-  has_and_belongs_to_many :things
+  has_many :things, through: :authorships
+  has_many :authorships
 end

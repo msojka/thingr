@@ -17,7 +17,15 @@ class Thing < ActiveRecord::Base
         skip_if: :all_blank do
           property :email
           validates :email, presence: true, email: true
+          validate :authorships_limit_reached?
+          
+      private
+        def authorships_limit_reached?
+          return if model.authorships.find_all { |au| au.confirmed == 0 }.size < 5
+          errors.add("user", "This user has too many unconfirmed authorships.")
+        end
       end
+      validates :users, length: { maximum: 3 }
       
     private
       def prepopulate_users!(options)
@@ -32,7 +40,13 @@ class Thing < ActiveRecord::Base
     def process(params)
       validate(params[:thing]) do |f|
         f.save
+        reset_authorships!
       end
+    end
+    
+  private
+    def reset_authorships!
+      model.authorships.each{ |a| a.update_attribute(:confirmed, 0) }
     end
   end
   
