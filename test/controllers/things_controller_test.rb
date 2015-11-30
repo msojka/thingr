@@ -51,10 +51,33 @@ describe ThingsController do
     end
   end
   
-  describe "edit" do  
+  describe "#edit" do
     it do
+      thing = Thing::Create.(thing: {"name" => "Rails", "users" => [{"email" => "joe@trb.org"}]}).model
+
       get :edit, id: thing.id
-      assert_select "form #thing_name.readonly[value='Rails']"
+      page.must_have_css "form #thing_name.readonly[value='Rails']"
+      # existing email is readonly.
+      page.must_have_css "#thing_users_attributes_0_email.readonly[value='joe@trb.org']"
+      # remove button for existing.
+      page.must_have_css "#thing_users_attributes_0_remove"
+      # empty email for new.
+      page.must_have_css "#thing_users_attributes_1_email"
+      # no remove for new.
+      page.wont_have_css "#thing_users_attributes_1_remove"
+    end
+  end
+  
+  describe "#update" do
+    it do
+      put :update, id: thing.id, thing: {name: "Trb"}
+      assert_redirected_to thing_path(thing)
+      # assert_select "h1", "Trb"
+    end
+
+    it do
+      put :update, id: thing.id, thing: {description: "bla"}
+      page.must_have_css ".error"
     end
   end
   

@@ -107,6 +107,35 @@ class ThingCrudTest < MiniTest::Spec
       thing.name.must_equal "Rails"
       thing.description.must_equal "Simply better"
     end
+    
+    it "doesn't allow changing existing email" do
+      op = Thing::Create.(thing: {name: "Rails  ", users: [{"email"=>"nick@trb.org"}]})
+
+      op = Thing::Update.(id: op.model.id, thing: {users: [{"email"=>"wrong@nerd.com"}]})
+      op.model.users[0].email.must_equal "nick@trb.org"
+    end
+
+    # all emails blank
+    it "all emails blank" do
+      op = Thing::Create.(thing: {name: "Rails  ", users: []})
+
+      res, op = Thing::Update.run(id: op.model.id, thing: {name: "Rails", users: [{"email"=>""},{"email"=>""}]})
+
+      res.must_equal true
+      op.model.users.must_equal []
+    end
+
+    # remove
+    it "allows removing" do
+      op  = Thing::Create.(thing: {name: "Rails  ", users: [{"email"=>"joe@trb.org"}]})
+      joe = op.model.users[0]
+
+      res, op = Thing::Update.run(id: op.model.id, thing: {name: "Rails", users: [{"id"=>joe.id.to_s, "remove"=>"1"}]})
+
+      res.must_equal true
+      op.model.users.must_equal []
+      joe.persisted?.must_equal true
+    end
   end
   
 end

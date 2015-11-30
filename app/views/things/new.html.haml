@@ -7,7 +7,12 @@
   %fieldset
     %legend Do you know any authors?
     = f.fields_for :users do |a|
-      .row
+      - if @operation.instance_of? Thing::Create
         = a.input :email
-
+      - else
+        = a.input :email, readonly: a.object.removeable?
+      
+        - if a.object.removeable?
+          = a.input :remove, as: :boolean, input_html: { checked: false }
+        
   = f.button :submit, class: :expand
