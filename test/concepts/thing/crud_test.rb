@@ -68,6 +68,9 @@ class ThingCrudTest < MiniTest::Spec
 
       # authorship is not confirmed, yet.
       model.authorships.pluck(:confirmed).must_equal [0, 0]
+      
+      op.invocations[:default].invocations[0].must_equal
+        [:on_add, :notify_author!, [op.contract.users[0], op.contract.users[1]]]
     end
 
     # too many users

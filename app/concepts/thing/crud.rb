@@ -6,17 +6,35 @@ class Thing < ActiveRecord::Base
     
     require_dependency "thing/form"
     self.contract_class = Form
+    
+    include Dispatch
+    callback do
+      collection :users do
+        on_add :notify_author!
+        on_add :reset_authorship!
+      end
+      on_change :expire_cache!
+    end
   
     def process(params)
       validate(params[:thing]) do |f|
         f.save
-        reset_authorships!
+        dispatch!
       end
     end
     
   private
-    def reset_authorships!
-      model.authorships.each{ |a| a.update_attribute(:confirmed, 0) }
+    def reset_authorship!(user)
+      user.model.authorships.find_by(thing_id: model.id).update_attribute(:confirmed, 0)
+    end
+    
+    def notify_author!(user)
+      # return UserMailer.welcome_and_added(user, model) if user.created?
+      # UserMailer.thing_added(user, model)
+    end
+    
+    def expire_cache!(thing)
+      
     end
   end
   
