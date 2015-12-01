@@ -1,18 +1,13 @@
 require 'test_helper'
 
 class ThingCellTest < Cell::TestCase
-  controller ThingsController
-  
+  controller HomeController
+
+  let (:thing) { Thing::Create.(thing: {name: "Rails", description: "Great!!!"}).model }
+
   it do
-    Thing.delete_all
-    Thing::Create.(thing: { name: 'Rails' })
-    Thing::Create.(thing: { name: 'Trailblazer' })
-    
-    html = concept("thing/cell/grid").()
-    
-    html.must_have_selector ".thing .header a", text: "Rails"
-    html.wont_have_selector ".thing.end .header a", text: "Trailblazer"
-    html.must_have_selector ".thing.end .header a", text: "Rails"
+    html = concept("thing/cell", thing).()
+    html.must_have_selector "a", text: "Rails"
+    html.must_have_content "Great!!!"
   end
 end
-  

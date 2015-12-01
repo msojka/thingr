@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130100709) do
+ActiveRecord::Schema.define(version: 20151201155601) do
 
   create_table "authorships", force: :cascade do |t|
     t.integer  "user_id"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20151130100709) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "cache_versions", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cache_versions", ["name"], name: "index_cache_versions_on_name", unique: true
 
   create_table "comments", force: :cascade do |t|
     t.integer  "thing_id"

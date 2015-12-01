@@ -10,7 +10,7 @@ class Thing < ActiveRecord::Base
         on_add :notify_author!
         on_add :reset_authorship!
       end
-      on_change :expire_cache!
+      on_create :expire_cache!
     end
     
     contract do
@@ -64,7 +64,7 @@ class Thing < ActiveRecord::Base
     end
     
     def expire_cache!(thing)
-      
+      CacheVersion.for("thing/cell/grid").expire!
     end
   end
   

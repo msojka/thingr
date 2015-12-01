@@ -1,5 +1,6 @@
 class Thing::Cell < Cell::Concept
   property :name
+  property :description
   property :created_at
   
   include ActionView::Helpers::DateHelper
@@ -19,6 +20,11 @@ private
   end
   
   class Grid < Cell::Concept
+    include Cell::Caching::Notifications
+    cache :show do
+      CacheVersion.for("things/cell/grid")
+    end
+    
     def show
       things = Thing.latest
       concept("thing/cell", collection: things, last: things.last)
