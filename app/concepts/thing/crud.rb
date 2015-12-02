@@ -53,7 +53,7 @@ class Thing < ActiveRecord::Base
       end
       
       def populate_users!(params, options)
-        User.find_by_email(params[:email]) or User.new
+        User.find_by(email: params["email"]) or User.new
       end
     end
   

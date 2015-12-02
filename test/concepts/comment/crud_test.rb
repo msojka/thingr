@@ -37,6 +37,21 @@ class CommentCrudTest < MiniTest::Spec
       op.errors.messages[:"user.email"].must_equal ["is invalid"]
     end
     
+    it do
+      params = {
+        id: thing.id,
+        comment: {
+          body: "Fantastic!",
+          weight: "1",
+          user: { email: "joe@trb.org"}
+        }
+      }
+      op1 = Comment::Create.(params)
+      op2 = Comment::Create.(params)
+
+      op1.model.user.id.must_equal op2.model.user.id
+    end
+    
     # TODO cover more validations
   end
   

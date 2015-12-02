@@ -5,4 +5,8 @@ class ApplicationController < ActionController::Base
   
   include Trailblazer::Operation::Controller
   
+  def tyrant
+    Tyrant::Session.new(request.env['warden'])
+  end
+  helper_method :tyrant
 end
