@@ -5,6 +5,9 @@ class Thing < ActiveRecord::Base
     model Thing, :create
     
     include Dispatch
+    callback(:upload) do
+      on_change :upload_image!, property: :file
+    end
     callback do
       collection :users do
         on_add :notify_author!
@@ -14,11 +17,19 @@ class Thing < ActiveRecord::Base
     end
     
     contract do
+      feature Disposable::Twin::Persisted
+      extend Paperdragon::Model::Writer
+      processable_writer :image
+      
       property :name
       property :description
+      property :image_meta_data, deserializer: { writeable: false }
+      property :file, virtual: true
 
       validates :name, presence: true
       validates :description, length: {in: 4..160}, allow_blank: true
+      validates :file,  file_size: { less_than: 1.megabyte },
+                        file_content_type: { allow: ['image/jpeg', 'image/png'] }
       
       collection :users, 
         prepopulator: :prepopulate_users!,
@@ -48,12 +59,20 @@ class Thing < ActiveRecord::Base
   
     def process(params)
       validate(params[:thing]) do |f|
+        dispatch!(:upload)
         f.save
         dispatch!
       end
     end
     
   private
+    def upload_image!(contract)
+      contract.image!(contract.file) do |v|
+        v.process!(:original)
+        v.process!(:thumb) { |job| job.thumb!("120x120#") }
+      end
+    end
+    
     def reset_authorship!(user)
       user.model.authorships.find_by(thing_id: model.id).update_attribute(:confirmed, 0)
     end

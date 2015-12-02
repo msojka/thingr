@@ -64,3 +64,5 @@ gem 'foundation-rails', '~> 5.5', '>= 5.5.3.2'
 
 # MISC
 gem 'email_validator', '~> 1.6'
+gem 'paperdragon', '~> 0.0.10'
+gem 'file_validators', '~> 2.0', '>= 2.0.2'

@@ -3,6 +3,7 @@
 = simple_form_for @form do |f|
   = f.input :name, placeholder: "Name", label: false, readonly: @form.readonly?(:name)
   = f.input :description, placeholder: "Description", label: false
+  = f.input :file, as: :file
 
   %fieldset
     %legend Do you know any authors?

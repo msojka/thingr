@@ -16,6 +16,29 @@ class ThingCrudTest < MiniTest::Spec
       thing.description.must_equal 'Kickass web dev'
     end
     
+    # valid file upload.
+    it "valid upload" do
+      thing = Thing::Create.(thing: {name: "Rails",
+        file: File.open(Rails.root.join "test/images/cells.jpg")}).model
+
+      Paperdragon::Attachment.new(thing.image_meta_data).exists?.must_equal true
+    end
+
+    it "hack" do
+      thing = Thing::Create.(thing: {name: "Rails",
+        image_meta_data: {bla: 1}}).model
+      thing.image_meta_data.must_equal nil
+    end
+
+    # invalid file upload.
+    it "invalid upload" do
+      res, op = Thing::Create.run(thing: {name: "Rails",
+        file: File.open(Rails.root.join "test/images/hack.pdf")})
+
+      res.must_equal false
+      op.errors.to_s.must_equal "{:file=>[\"file has an extension that does not match its contents\", \"file should be one of image/jpeg, image/png\"]}"
+    end
+    
     it "invalid" do
       res, op = Thing::Create.run(thing: {name: ''})
       
