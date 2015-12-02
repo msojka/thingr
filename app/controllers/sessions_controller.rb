@@ -5,6 +5,10 @@ class SessionsController < ApplicationController
     redirect_to root_path if tyrant.signed_in?
   end
   
+  before_filter only: [:wake_up_form] do
+    Session::IsConfirmable.reject(params) { redirect_to(root_path) }
+  end
+  
   def sign_up_form
     form Session::SignUp
   end
@@ -34,5 +38,17 @@ class SessionsController < ApplicationController
       tyrant.sign_out!
       redirect_to root_path
     end
+  end
+  
+  def wake_up_form
+    form Session::WakeUp
+  end
+  
+  def wake_up
+    run Session::WakeUp do |op|
+      flash[:notice] = "Password changed."
+      return redirect_to sessions_sign_in_form_path
+    end
+    render :wake_up_form
   end
 end
